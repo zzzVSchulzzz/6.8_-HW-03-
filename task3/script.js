@@ -1,25 +1,25 @@
-const trafficLightEl = document.querySelector('#trafficLight');
+const trafficLightEl = document.querySelector('.traffic-light');
+const red = trafficLightEl.querySelector('.red')
+const yellow = trafficLightEl.querySelector('.yellow')
+const green = trafficLightEl.querySelector('.green')
 
-trafficLightEl.addEventListener('click') 
-function makeGreen() {
-    trafficLightEl.style.background = ('green');
-    trafficLightEl.removeEventListener('click', makeGreen);
-    trafficLightEl.addEventListener('click', makeYellow);
+function onActiveLightChange(event) {
+    if(event.target.classList.contains('traffic-light')) {
+        return;
+    }
+    const elementClassList = event.target.classList
+    event.target.classList.toggle('active');
+
+    if(elementClassList.contains('red')) {
+        green.classList.remove('active');
+        yellow.classList.remove('active');
+    } else if(elementClassList.contains('yellow')) {
+        green.classList.remove('active');
+        red.classList.remove('active');
+    } else if(elementClassList.contains('green')) {
+        red.classList.remove('active');
+        yellow.classList.remove('active');
+    }
 };
 
-function makeYellow() {
-    trafficLightEl.style.background = ('yellow');
-    trafficLightEl.removeEventListener('click', makeYellow);
-    trafficLightEl.addEventListener('click', makeRed);
-};
-
-function makeRed() {
-    trafficLightEl.style.background = ('red');
-    trafficLightEl.removeEventListener('click', makeYellow);
-    trafficLightEl.addEventListener('click', makeRed);
-};
-
-trafficLightEl.addEventListener('click', makeGreen);
-trafficLightEl.addEventListener('click', makeYellow);
-trafficLightEl.addEventListener('click', makeRed);
-
+trafficLightEl.addEventListener('click', onActiveLightChange);
